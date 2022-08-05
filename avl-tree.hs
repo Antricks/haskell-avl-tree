@@ -47,13 +47,13 @@ balanceFactor :: Tree -> Int
 balanceFactor Nil                 = 0
 balanceFactor (Node left _ right) = height right - height left
 
-worstBf :: Tree -> Int
-worstBf Nil = 0
-worstBf node@(Node left _ right)
-  | abs (balanceFactor node) > abs (worstBf left) &&
-      abs (balanceFactor node) > abs (worstBf right) = balanceFactor node
-  | abs (worstBf left) > abs (worstBf right) = worstBf left
-  | otherwise = worstBf right
+worstBalFac :: Tree -> Int
+worstBalFac Nil = 0
+worstBalFac node@(Node left _ right)
+  | abs (balanceFactor node) > abs (worstBalFac left) &&
+      abs (balanceFactor node) > abs (worstBalFac right) = balanceFactor node
+  | abs (worstBalFac left) > abs (worstBalFac right) = worstBalFac left
+  | otherwise = worstBalFac right
 
 avlBalance :: Tree -> Tree
 avlBalance Nil = Nil
@@ -67,6 +67,7 @@ avlBalance tree@(Node left val right)
     futureNode = Node (futureLeft) val (futureRight)
     futureBF = balanceFactor futureNode
 
+-- Generates an absolutely unbalanced tree with n nodes
 avlTest :: Int -> Tree
 avlTest n = avlTest' n Nil
   where
